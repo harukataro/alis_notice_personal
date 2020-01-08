@@ -4,6 +4,7 @@ import requests
 from datetime import datetime as dt
 
 INIFILE = './last_created_at.ini'
+JST_DIFF = 9 * 60 * 60
 
 
 def line_notify(message):
@@ -18,7 +19,7 @@ def line_notify(message):
 def message_gen(notification):
     type = notification["type"]
     msg = ''
-    create_time = dt.fromtimestamp(notification['created_at']).strftime('%Y/%m/%d %H:%M')
+    create_time = dt.fromtimestamp(notification['created_at'] + JST_DIFF).strftime('%Y/%m/%d %H:%M')
 
     if type == 'thread':
         acted_user = alis.get_user_name(notification['acted_user_id'])
@@ -58,8 +59,8 @@ if __name__ == '__main__':
 
     accesstoken = alis.get_access_token(idpw.ID, idpw.PW)
 
-    if alis.is_unread_notification(accesstoken):
-    #if True:
+    #if alis.is_unread_notification(accesstoken):
+    if True:
         notifications = alis.notifications(accesstoken)
         for notification in notifications['Items']:
             if notification['created_at'] > last_time:
