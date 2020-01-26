@@ -22,14 +22,19 @@ def message_gen(notification):
 
     if type == 'thread':
         acted_user = alis.get_user_name(notification['acted_user_id'])
+        comment_body = alis.get_comment_body(notification["article_id"], acted_user)
         msg += f'{acted_user}さんが、あなたの記事にコメントしました。'
         msg += f'{notification["article_title"]}\n'
+        msg += f'「{comment_body}」\n'
         msg += f'{create_time}\n'
         msg += f'https://alis.to/haruka/articles/{notification["article_id"]}'
+
     elif type == 'reply':
         acted_user = alis.get_user_name(notification['acted_user_id'])
-        msg += f'{acted_user}さんが、あなたのコメントに返信しました。'
+        reply_body = alis.get_comment_reply_body(notification['article_id'], notification['acted_user_id'], idpw.ID)
+        msg += f'{acted_user}さんが、あなたのコメントに返信しました\n'
         msg += f'{notification["article_title"]}\n'
+        msg += f'\n「{reply_body}」\n\n'
         msg += f'{create_time}\n'
         msg += f'https://alis.to/haruka/articles/{notification["article_id"]}'
 
