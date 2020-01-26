@@ -25,13 +25,13 @@ def message_gen(notification):
         msg += f'{acted_user}さんが、あなたの記事にコメントしました。'
         msg += f'{notification["article_title"]}\n'
         msg += f'{create_time}\n'
-        msg += f'https://alis.to/haruka/articles/{notification["article_id"]}/#article-comments'
+        msg += f'https://alis.to/haruka/articles/{notification["article_id"]}'
     elif type == 'reply':
         acted_user = alis.get_user_name(notification['acted_user_id'])
         msg += f'{acted_user}さんが、あなたのコメントに返信しました。'
         msg += f'{notification["article_title"]}\n'
         msg += f'{create_time}\n'
-        msg += f'https://alis.to/haruka/articles/{notification["article_id"]}/#article-comments'
+        msg += f'https://alis.to/haruka/articles/{notification["article_id"]}'
 
     elif type == 'tip':
         acted_user = alis.get_user_name(notification['acted_user_id'])
@@ -58,8 +58,8 @@ if __name__ == '__main__':
 
     accesstoken = alis.get_access_token(idpw.ID, idpw.PW)
 
-    if alis.is_unread_notification(accesstoken):
-    #if True:
+    #if alis.is_unread_notification(accesstoken):
+    if True:
         notifications = alis.notifications(accesstoken)
         for notification in notifications['Items']:
             if notification['created_at'] > last_time:

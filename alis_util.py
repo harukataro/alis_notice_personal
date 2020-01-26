@@ -20,6 +20,28 @@ def get_article_body(article_id):
     return data['body']
 
 
+def get_comment_body(article_id, acted_user):
+    url = f'https://alis.to/api/articles/xxx/comments{article_id}'
+    data = json.loads(requests.get(url).text)
+    for comment in data['Items']:
+        if comment['user_id'] == acted_user:
+            return comment['text']
+    return ''
+
+
+def get_comment_reply_body(article_id, acted_user_id, my_id):
+    url = f'https://alis.to/api/articles/{article_id}/comments'
+    data = json.loads(requests.get(url).text)
+    reply_text = ''
+
+    for comment in data['Items']:
+        if comment['user_id'] == my_id:
+            for reply in comment['replies']:
+                if reply['user_id'] == acted_user_id:
+                    reply_text = f'{reply["text"]}'
+    return reply_text
+
+
 def get_article_title(article_id):
     url = f'https://alis.to/api/articles/{article_id}'
     data = json.loads(requests.get(url).text)
