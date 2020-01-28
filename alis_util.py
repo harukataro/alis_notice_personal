@@ -21,7 +21,7 @@ def get_article_body(article_id):
 
 
 def get_comment_body(article_id, acted_user):
-    url = f'https://alis.to/api/articles/xxx/comments{article_id}'
+    url = f'https://alis.to/api/articles/{article_id}/comments'
     data = json.loads(requests.get(url).text)
     for comment in data['Items']:
         if comment['user_id'] == acted_user:
